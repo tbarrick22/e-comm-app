@@ -113,7 +113,7 @@ const loginUser = async (req, res, next) => {
 		}
 		// create login token if password is valid
 		const token = jwt.sign(
-			{ id: user.rows[0].id },
+			{ id: user.rows[0].id, username: user.rows[0].username }, // ADD USERNAME HERE!
 			process.env.JWT_SECRET,
 			{ expiresIn: "1hr" }
 		);

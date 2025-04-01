@@ -1,16 +1,22 @@
 const express = require("express");
 const cartsRouter = express.Router();
 
+// import controller functions
+const { getCart, addToCart } = require("../controllers/cartController");
+
 // TO DO: ADD AUTHENTICATION!!!
+const authenticateUser = require("../middleware/auth");
 
-// GET /:userId - get user cart (authenticate)
+// GET /:username - get user cart (authenticate)
+cartsRouter.get("/:username", authenticateUser, getCart);
 
-// POST /:userId - add to cart (authenticate)
+// POST /:username - add to cart (authenticate)
+cartsRouter.post("/:username", authenticateUser, addToCart);
 
-// PUT /:userId/:itemId - update cart item (authenticate)
+// PUT /:username/:itemName - update cart item (authenticate)
 
-// DELETE /:userId/:itemId  - remove cart item (authenticate)
+// DELETE /:username/:itemName  - remove cart item (authenticate)
 
-// DELETE /:userId  - clear cart (authenticate)
+// DELETE /:username  - clear cart (authenticate)
 
 module.exports = cartsRouter;

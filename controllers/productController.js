@@ -12,7 +12,7 @@ const getProducts = async (req, res, next) => {
 const getProductByName = async (req, res, next) => {
 	// get the product id from the req params - ALSO can get product by name!
 	const productName = req.params.name;
-	console.log(productName);
+	// console.log(productName);
 	try {
 		const result = await pool.query(
 			"SELECT * FROM products WHERE name = $1",
