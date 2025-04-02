@@ -1,0 +1,342 @@
+openapi: 3.0.0
+info:
+  title: eCommerce API
+  description: API for managing users, products, carts, and orders.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api
+    description: Local Development Server
+
+paths:
+  /users/register:
+    post:
+      summary: Register a new user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "201":
+          description: User registered successfully
+        "400":
+          description: Invalid request (missing fields)
+        "500":
+          description: Server error
+
+  /users/login:
+    post:
+      summary: Login a user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful, returns JWT token
+        "400":
+          description: Invalid credentials
+        "500":
+          description: Server error
+
+  /users/{id}:
+    get:
+      summary: Get user by ID
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: User found
+        "403":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+    put:
+      summary: Update user
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: User updated
+        "403":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+    delete:
+      summary: Delete user
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: User deleted
+        "403":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+  /products:
+    get:
+      summary: Get all products
+      tags:
+        - Products
+      responses:
+        "200":
+          description: List of products
+        "500":
+          description: Server error
+
+  /products/{name}:
+    get:
+      summary: Get a product by name
+      tags:
+        - Products
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product details
+        "404":
+          description: Product not found
+        "500":
+          description: Server error
+
+  /carts/{username}:
+    get:
+      summary: Get user's cart
+      tags:
+        - Carts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Cart details
+        "403":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+    post:
+      summary: Add item to cart
+      tags:
+        - Carts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - productName
+                - quantity
+              properties:
+                productName:
+                  type: string
+                quantity:
+                  type: integer
+      responses:
+        "200":
+          description: Item added to cart
+        "403":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+    delete:
+      summary: Clear user's cart
+      tags:
+        - Carts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Cart cleared
+        "403":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+  /carts/{username}/{itemName}:
+    delete:
+      summary: Remove an item from the cart
+      tags:
+        - Carts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: itemName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Item removed
+        "403":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+  /orders/{username}:
+    get:
+      summary: Get user's orders
+      tags:
+        - Orders
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of orders
+        "403":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+    post:
+      summary: Place an order
+      tags:
+        - Orders
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Order placed successfully
+        "400":
+          description: No cart found
+        "403":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+  /orders/{username}/{orderId}:
+    get:
+      summary: Get order by ID
+      tags:
+        - Orders
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Order details
+        "403":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
