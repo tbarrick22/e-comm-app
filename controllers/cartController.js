@@ -107,10 +107,75 @@ const addToCart = async (req, res, next) => {
 	}
 };
 
-// update cart item? by item name
-
 // remove cart item by name
+const removeCartItem = async (req, res, next) => {
+	const { username, itemName } = req.params;
+	// get the user id from the request
+	const userId = req.user.id;
+	// 1. Check the logged-in user is only trying to update their own cart
+	if (req.user.username !== username) {
+		return res
+			.status(403)
+			.json({ message: "You can only remove from your own cart" });
+	}
+	if (!userId) {
+		return res
+			.status(403)
+			.json({ message: "You need a user ID to update cart" });
+	}
+	try {
+		// 2. verify product exists and get its id
+		const productResult = await pool.query(
+			"SELECT id FROM products WHERE name = $1",
+			[itemName]
+		);
+		if (productResult.rows.length === 0) {
+			return res.status(404).json({ message: "Product not found" });
+		}
+		const productId = productResult.rows[0].id;
+		// 3. get the cart ID
+		const cartResult = await pool.query(
+			"SELECT id FROM carts WHERE user_id = $1",
+			[userId]
+		);
+		if (cartResult.rows.length === 0) {
+			return res.status(404).json({ message: "Cart not found" });
+		}
+		const cartId = cartResult.rows[0].id;
+		// 4. Now remove from carts_products
+		await pool.query(
+			"DELETE FROM carts_products WHERE cart_id = $1 AND product_id = $2",
+			[cartId, productId]
+		);
+		res.json({ message: "Item removed from cart" });
+	} catch (error) {
+		res.status(500).json({ message: "Error removing cart item", error });
+	}
+};
 
-// clear cart by username
+// clear cart by username - TODO!!!!
+const clearCart = async (req, res, next) => {
+	// get username from req params
+	const username = req.params.username;
+	// get the user id from the request
+	const userId = req.user.id;
+	// Check the logged-in user is only trying to see their own cart
+	if (req.user.username !== username) {
+		return res
+			.status(403)
+			.json({ message: "You can only add to your own cart" });
+	}
+	if (!userId) {
+		return res
+			.status(403)
+			.json({ message: "You need a user ID to add to cart" });
+	}
+	try {
+		await pool.query("DELETE FROM carts WHERE user_id = $1", [userId]);
+		res.json({ message: "Cart cleared" });
+	} catch (error) {
+		res.status(500).json({ message: "Error clearing cart", error });
+	}
+};
 
-module.exports = { getCart, addToCart };
+module.exports = { getCart, addToCart, removeCartItem, clearCart };
