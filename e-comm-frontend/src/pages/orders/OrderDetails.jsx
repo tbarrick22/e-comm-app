@@ -70,6 +70,7 @@ function OrderDetails() {
 				</ul>
 			)}
 			<button onClick={handleBack}>← Back to Orders</button>
+			<h4>Signed in as {username}</h4>
 		</div>
 	);
 }

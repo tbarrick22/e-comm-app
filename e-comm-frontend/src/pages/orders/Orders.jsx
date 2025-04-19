@@ -59,6 +59,7 @@ function Orders() {
 					))}
 				</ul>
 			)}
+			<h4>Signed in as {username}</h4>
 		</div>
 	);
 }
