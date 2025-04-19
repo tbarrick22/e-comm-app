@@ -8,6 +8,7 @@ import Products from "./pages/products/Products";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Orders from "./pages/orders/Orders";
+import OrderDetails from "./pages/orders/OrderDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
 import {
 	Route,
@@ -44,6 +45,14 @@ const router = createBrowserRouter(
 				}
 			/>{" "}
 			{/* ONLY AVAILABLE WHEN LOGGED IN*/}
+			<Route
+				path="/orders/:orderId"
+				element={
+					<ProtectedRoute>
+						<OrderDetails />
+					</ProtectedRoute>
+				}
+			/>
 		</Route>
 	)
 );

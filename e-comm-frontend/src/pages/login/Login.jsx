@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { jwtDecode } from "jwt-decode";
 import { login } from "../../store/authSlice";
 import AuthForm from "../../components/AuthForm";
 
@@ -41,8 +42,11 @@ function Login() {
 			// if no error in response data
 			const data = await response.json();
 			const token = data.token;
+			// decode token to extract username
+			const decoded = jwtDecode(token);
+			const usernameFromToken = decoded.username;
 			// login with token
-			dispatch(login(token));
+			dispatch(login({ token, username: usernameFromToken }));
 			navigate("/products");
 		} catch (error) {
 			setError("Network error");
