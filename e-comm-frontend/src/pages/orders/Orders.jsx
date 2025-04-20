@@ -27,7 +27,7 @@ function Orders() {
 					setError(data.message || "Login failed");
 					return;
 				}
-				setOrders(data);
+				setOrders(Array.isArray(data) ? data : []);
 				// console.log(data);
 			} catch (err) {
 				setError(err.message);

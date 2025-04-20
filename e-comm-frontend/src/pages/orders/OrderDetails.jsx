@@ -56,7 +56,7 @@ function OrderDetails() {
 								<strong>Product:</strong> {item.name}
 							</p>
 							<p>
-								<strong>Price:</strong> {item.price}
+								<strong>Price:</strong> ${item.price}
 							</p>
 							<p>
 								<strong>Quantity:</strong> {item.quantity}

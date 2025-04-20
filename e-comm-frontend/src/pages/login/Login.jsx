@@ -60,7 +60,6 @@ function Login() {
 
 	return (
 		<>
-			<h2>Login</h2>
 			<AuthForm
 				title="Login"
 				username={username}
