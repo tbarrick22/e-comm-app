@@ -66,6 +66,7 @@ function App() {
 	const dispatch = useDispatch();
 	// set up useEffect to create timer which checks if user is logged in
 	useEffect(() => {
+		// This will check once per minute to ensure that the token is still valid and if not (once the token expires), automatically logs the user out
 		const interval = setInterval(() => {
 			const token = localStorage.getItem("token");
 

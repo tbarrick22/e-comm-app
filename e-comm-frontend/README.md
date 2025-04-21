@@ -1,9 +1,14 @@
 # Future Features / Upgrades
 
--   More advanced JWT authentication
+-   More advanced JWT authentication - full sessions
 -   Admin account functionality - they can add products themselves, change prices
 -   Add tests
 -   Improve Web Security: XSS attacks, SQL injections
+-   DRY some of the components
+-   To be used as a template so front end formatting is not enabled currently and must be added
+-   Model after this: https://github.com/sveltejs/realworld/blob/master/README.md
+-   Add ESLint
+-   ADD stripe payment system
 
 # React + Vite
 

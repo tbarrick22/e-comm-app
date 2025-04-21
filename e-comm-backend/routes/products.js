@@ -10,7 +10,7 @@ const {
 // GET / - get products
 productsRouter.get("/", getProducts);
 
-// GET /:id - product by NAME (authenticate) - no auth needed
+// GET /:id - product by NAME (authenticate) - no auth needed - dont really use this in front end at moment
 productsRouter.get("/:name", getProductByName);
 
 module.exports = productsRouter;
