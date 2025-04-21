@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -10,6 +10,10 @@ import Register from "./pages/register/Register";
 import Orders from "./pages/orders/Orders";
 import OrderDetails from "./pages/orders/OrderDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NotFound from "./pages/NotFound";
+import { isTokenExpired } from "./utils/isTokenExpired";
+import { useDispatch } from "react-redux";
+import { logout } from "./store/authSlice";
 import {
 	Route,
 	RouterProvider,
@@ -53,11 +57,26 @@ const router = createBrowserRouter(
 					</ProtectedRoute>
 				}
 			/>
+			<Route path="*" element={<NotFound />} />
 		</Route>
 	)
 );
 
 function App() {
+	const dispatch = useDispatch();
+	// set up useEffect to create timer which checks if user is logged in
+	useEffect(() => {
+		const interval = setInterval(() => {
+			const token = localStorage.getItem("token");
+
+			if (token && isTokenExpired(token)) {
+				dispatch(logout());
+			}
+		}, 60 * 1000); // check every 60 seconds
+
+		return () => clearInterval(interval); // cleanup on unmount
+	}, [dispatch]);
+
 	return (
 		<>
 			<RouterProvider router={router} />
