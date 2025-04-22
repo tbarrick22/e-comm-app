@@ -15,7 +15,7 @@ function Products() {
 		const fetchProducts = async () => {
 			try {
 				const response = await fetch(
-					"http://localhost:3000/api/products"
+					`${import.meta.env.VITE_API_BASE_URL}/products`
 				);
 				const data = await response.json();
 				if (!response.ok) {
@@ -49,7 +49,7 @@ function Products() {
 		const quantity = quantities[productName];
 		try {
 			const response = await fetch(
-				`http://localhost:3000/api/carts/${username}`,
+				`${import.meta.env.VITE_API_BASE_URL}/carts/${username}`,
 				{
 					method: "POST",
 					headers: {

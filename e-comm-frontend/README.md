@@ -9,6 +9,7 @@
 -   Model after this: https://github.com/sveltejs/realworld/blob/master/README.md
 -   Add ESLint
 -   ADD stripe payment system
+-   Add toast updates for notifications
 
 # React + Vite
 

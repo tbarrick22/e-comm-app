@@ -23,7 +23,7 @@ function Register() {
 		// Use try catch to make call to backend
 		try {
 			const response = await fetch(
-				"http://localhost:3000/api/users/register",
+				`${import.meta.env.VITE_API_BASE_URL}/users/register`,
 				{
 					method: "POST",
 					headers: {

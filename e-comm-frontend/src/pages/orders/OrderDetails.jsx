@@ -13,7 +13,9 @@ function OrderDetails() {
 		const fetchOrderDetails = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:3000/api/orders/${username}/${orderId}`,
+					`${
+						import.meta.env.VITE_API_BASE_URL
+					}/orders/${username}/${orderId}`,
 					{
 						headers: {
 							Authorization: `Bearer ${token}`,

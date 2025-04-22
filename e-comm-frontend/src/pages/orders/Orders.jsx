@@ -13,7 +13,7 @@ function Orders() {
 		const fetchOrders = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:3000/api/orders/${username}`,
+					`${import.meta.env.VITE_API_BASE_URL}/orders/${username}`,
 					{
 						headers: {
 							Authorization: `Bearer ${token}`,

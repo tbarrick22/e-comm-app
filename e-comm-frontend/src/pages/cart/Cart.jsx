@@ -13,7 +13,7 @@ function Cart() {
 		const fetchCart = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:3000/api/carts/${username}`,
+					`${import.meta.env.VITE_API_BASE_URL}/carts/${username}`,
 					{
 						headers: {
 							Authorization: `Bearer ${token}`,
@@ -38,7 +38,9 @@ function Cart() {
 	const handleRemoveItem = async (itemName) => {
 		try {
 			const response = await fetch(
-				`http://localhost:3000/api/carts/${username}/${itemName}`,
+				`${
+					import.meta.env.VITE_API_BASE_URL
+				}/carts/${username}/${itemName}`,
 				{
 					method: "DELETE",
 					headers: {
@@ -65,7 +67,7 @@ function Cart() {
 	const handleClearCart = async () => {
 		try {
 			const response = await fetch(
-				`http://localhost:3000/api/carts/${username}`,
+				`${import.meta.env.VITE_API_BASE_URL}/${username}`,
 				{
 					method: "DELETE",
 					headers: {
@@ -91,7 +93,7 @@ function Cart() {
 	const handlePlaceOrder = async () => {
 		try {
 			const response = await fetch(
-				`http://localhost:3000/api/orders/${username}`,
+				`${import.meta.env.VITE_API_BASE_URL}/orders/${username}`,
 				{
 					method: "POST",
 					headers: {
